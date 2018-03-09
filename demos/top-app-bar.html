@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body class="mdc-typography demo-body">
-    <header id="demo-top-app-bar" class="mdc-top-app-bar">
+    <header id="demo-top-app-bar" class="mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed">
       <div class="mdc-top-app-bar__row">
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
           <a class="mdc-top-app-bar__navigation-icon">
@@ -36,7 +36,6 @@
           <span class="mdc-top-app-bar__title">San Francisco, CA</span>
         </section>
         <section id="iconSection" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-          <a id="right-item" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">file_download</a>
         </section>
       </div>
     </header>
@@ -159,26 +158,6 @@
       </div>
     </main>
 
-    <div class="demo-controls-container">
-      <h3>Demo Controls</h3>
-      <div>
-        <input type="checkbox" id="rtl-checkbox"/>
-        <label for="rtl-checkbox">RTL</label>
-      </div>
-      <div>
-        <input type="checkbox" id="no-action-item-checkbox"/>
-        <label for="no-action-item-checkbox">No Action Item</label>
-      </div>
-      <div>
-        <input type="checkbox" id="short-checkbox"/>
-        <label for="short-checkbox">Short</label>
-      </div>
-      <div>
-        <input type="checkbox" id="always-collapsed-checkbox" disabled/>
-        <label for="always-collapsed-checkbox">Always Collapsed (Short Only)&#x200E;</label>
-      </div>
-    </div>
-
     <script src="/assets/common.js" async></script>
     <script src="/assets/material-components-web.js" async></script>
     <script type="text/javascript">
@@ -240,6 +219,7 @@
           appBar.destroy();
           appBar = mdc.topAppBar.MDCTopAppBar.attachTo(appBarEl);
         });
+
       });
   </script>
   </body>
