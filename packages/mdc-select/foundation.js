@@ -16,7 +16,6 @@
 
 import {MDCFoundation} from '@material/base/index';
 import {cssClasses, strings} from './constants';
-import {MDCMenuFoundation} from '@material/menu/index';
 
 const OPENER_KEYS = [
   {key: 'ArrowUp', keyCode: 38, forType: 'keydown'},
@@ -56,10 +55,7 @@ export default class MDCSelectFoundation extends MDCFoundation {
         font: '',
         measureText: () => ({width: 0}),
       }),
-      setMenuElStyle: (/* propertyName: string, value: string */) => {},
-      setMenuElAttr: (/* attr: string, value: string */) => {},
-      rmMenuElAttr: (/* attr: string */) => {},
-      getMenuElOffsetHeight: () => /* number */ 0,
+      setMenuStylesForOpenAtIndex: (/* index: number, left: number, top: number */) => {},
       openMenu: (/* focusIndex: number */) => {},
       isMenuOpen: () => /* boolean */ false,
       setSelectedTextContent: (/* textContent: string */) => {},
@@ -69,10 +65,11 @@ export default class MDCSelectFoundation extends MDCFoundation {
       setAttrForOptionAtIndex: (/* index: number, attr: string, value: string */) => {},
       rmAttrForOptionAtIndex: (/* index: number, attr: string */) => {},
       getOffsetTopForOptionAtIndex: (/* index: number */) => /* number */ 0,
-      registerMenuInteractionHandler: (/* type: string, handler: EventListener */) => {},
-      deregisterMenuInteractionHandler: (/* type: string, handler: EventListener */) => {},
+      registerMenuInteractionSelectHandler: (/* handler: EventListener */) => {},
+      deregisterMenuInteractionSelectHandler: (/* handler: EventListener */) => {},
+      registerMenuInteractionCancelHandler: (/* handler: EventListener */) => {},
+      deregisterMenuInteractionCancelHandler: (/* handler: EventListener */) => {},
       notifyChange: () => {},
-      getWindowInnerHeight: () => /* number */ 0,
     };
   }
 
@@ -115,10 +112,8 @@ export default class MDCSelectFoundation extends MDCFoundation {
     this.adapter_.registerInteractionHandler('click', this.displayHandler_);
     this.adapter_.registerInteractionHandler('keydown', this.displayViaKeyboardHandler_);
     this.adapter_.registerInteractionHandler('keyup', this.displayViaKeyboardHandler_);
-    this.adapter_.registerMenuInteractionHandler(
-      MDCMenuFoundation.strings.SELECTED_EVENT, this.selectionHandler_);
-    this.adapter_.registerMenuInteractionHandler(
-      MDCMenuFoundation.strings.CANCEL_EVENT, this.cancelHandler_);
+    this.adapter_.registerMenuInteractionSelectHandler(this.selectionHandler_);
+    this.adapter_.registerMenuInteractionCancelHandler(this.cancelHandler_);
     this.resize();
   }
 
@@ -129,10 +124,8 @@ export default class MDCSelectFoundation extends MDCFoundation {
     this.adapter_.deregisterInteractionHandler('click', this.displayHandler_);
     this.adapter_.deregisterInteractionHandler('keydown', this.displayViaKeyboardHandler_);
     this.adapter_.deregisterInteractionHandler('keyup', this.displayViaKeyboardHandler_);
-    this.adapter_.deregisterMenuInteractionHandler(
-      MDCMenuFoundation.strings.SELECTED_EVENT, this.selectionHandler_);
-    this.adapter_.deregisterMenuInteractionHandler(
-      MDCMenuFoundation.strings.CANCEL_EVENT, this.cancelHandler_);
+    this.adapter_.deregisterMenuInteractionSelectHandler(this.selectionHandler_);
+    this.adapter_.deregisterMenuInteractionCancelHandler(this.cancelHandler_);
   }
 
   getValue() {
@@ -214,8 +207,9 @@ export default class MDCSelectFoundation extends MDCFoundation {
     this.disableScroll_();
     const {OPEN} = MDCSelectFoundation.cssClasses;
     const focusIndex = this.selectedIndex_ < 0 ? 0 : this.selectedIndex_;
+    const {left, top} = this.adapter_.computeBoundingRect();
 
-    this.setMenuStylesForOpenAtIndex_(focusIndex);
+    this.adapter_.setMenuStylesForOpenAtIndex(focusIndex, left, top);
     this.adapter_.floatLabel(true);
     this.adapter_.activateBottomLine();
     this.adapter_.addClass(OPEN);
@@ -223,31 +217,6 @@ export default class MDCSelectFoundation extends MDCFoundation {
       this.adapter_.openMenu(focusIndex);
       this.isFocused_ = true;
     });
-  }
-
-  setMenuStylesForOpenAtIndex_(index) {
-    const innerHeight = this.adapter_.getWindowInnerHeight();
-    const {left, top} = this.adapter_.computeBoundingRect();
-
-    this.adapter_.setMenuElAttr('aria-hidden', 'true');
-    this.adapter_.setMenuElStyle('display', 'block');
-    const menuHeight = this.adapter_.getMenuElOffsetHeight();
-    const itemOffsetTop = this.adapter_.getOffsetTopForOptionAtIndex(index);
-    this.adapter_.setMenuElStyle('display', '');
-    this.adapter_.rmMenuElAttr('aria-hidden');
-
-    let adjustedTop = top - itemOffsetTop;
-    const overflowsTop = adjustedTop < 0;
-    const overflowsBottom = adjustedTop + menuHeight > innerHeight;
-    if (overflowsTop) {
-      adjustedTop = 0;
-    } else if (overflowsBottom) {
-      adjustedTop = Math.max(0, innerHeight - menuHeight);
-    };
-
-    this.adapter_.setMenuElStyle('left', `${left}px`);
-    this.adapter_.setMenuElStyle('top', `${adjustedTop}px`);
-    this.adapter_.setMenuElStyle('transform-origin', `center ${itemOffsetTop}px`);
   }
 
   close_() {

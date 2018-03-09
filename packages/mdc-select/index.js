@@ -16,9 +16,9 @@
 
 import {MDCComponent} from '@material/base/index';
 import {MDCRipple} from '@material/ripple/index';
-import {MDCMenu} from '@material/menu/index';
 import {MDCSelectBottomLine} from './bottom-line/index';
 import {MDCSelectLabel} from './label/index';
+import {MDCSelectMenu} from './menu/index';
 
 import MDCSelectFoundation from './foundation';
 import {strings} from './constants';
@@ -73,7 +73,7 @@ export class MDCSelect extends MDCComponent {
   }
 
   initialize(
-    menuFactory = (el) => new MDCMenu(el),
+    menuFactory = (el) => new MDCSelectMenu(el),
     labelFactory = (el) => new MDCSelectLabel(el),
     bottomLineFactory = (el) => new MDCSelectBottomLine(el)) {
     this.surface_ = this.root_.querySelector(strings.SURFACE_SELECTOR);
@@ -118,11 +118,12 @@ export class MDCSelect extends MDCComponent {
       getComputedStyleValue: (prop) => window.getComputedStyle(this.surface_).getPropertyValue(prop),
       setStyle: (propertyName, value) => this.surface_.style.setProperty(propertyName, value),
       create2dRenderingContext: () => document.createElement('canvas').getContext('2d'),
-      setMenuElStyle: (propertyName, value) => this.menuEl_.style.setProperty(propertyName, value),
-      setMenuElAttr: (attr, value) => this.menuEl_.setAttribute(attr, value),
-      rmMenuElAttr: (attr) => this.menuEl_.removeAttribute(attr),
-      getMenuElOffsetHeight: () => this.menuEl_.offsetHeight,
+      registerMenuInteractionSelectHandler: (handler) => this.menu_.registerInteractionSelectionHandler(handler),
+      registerMenuInteractionCancelHandler: (handler) => this.menu_.registerInteractionCancelHandler(handler),
+      deregisterMenuInteractionSelectHandler: (handler) => this.menu_.deregisterInteractionSelectionHandler(handler),
+      deregisterMenuInteractionCancelHandler: (handler) => this.menu_.deregisterInteractionCancelHandler(handler),
       openMenu: (focusIndex) => this.menu_.show({focusIndex}),
+      setMenuStylesForOpenAtIndex: (index, left, top) => this.menu_.setMenuStylesForOpenAtIndex(index, left, top),
       isMenuOpen: () => this.menu_.open,
       setSelectedTextContent: (selectedTextContent) => {
         this.selectedText_.textContent = selectedTextContent;
@@ -132,11 +133,8 @@ export class MDCSelect extends MDCComponent {
       getValueForOptionAtIndex: (index) => this.options[index].id || this.options[index].textContent,
       setAttrForOptionAtIndex: (index, attr, value) => this.options[index].setAttribute(attr, value),
       rmAttrForOptionAtIndex: (index, attr) => this.options[index].removeAttribute(attr),
-      getOffsetTopForOptionAtIndex: (index) => this.options[index].offsetTop,
-      registerMenuInteractionHandler: (type, handler) => this.menu_.listen(type, handler),
-      deregisterMenuInteractionHandler: (type, handler) => this.menu_.unlisten(type, handler),
+
       notifyChange: () => this.emit(MDCSelectFoundation.strings.CHANGE_EVENT, this),
-      getWindowInnerHeight: () => window.innerHeight,
       addBodyClass: (className) => document.body.classList.add(className),
       removeBodyClass: (className) => document.body.classList.remove(className),
     });
