@@ -15,6 +15,7 @@
 //
 
 @import "common";
+@import "../packages/mdc-animation/functions";
 @import "../packages/mdc-top-app-bar/mdc-top-app-bar";
 @import "../packages/mdc-drawer/mdc-drawer";
 @import "../packages/mdc-list/mdc-list";
@@ -54,4 +55,26 @@
 
 input[type="checkbox"]:disabled + label {
   opacity: .4;
+}
+
+.header-showing {
+  position: absolute;
+  bottom: 20px;
+  left: 324px;
+  transform: translate3d(0,0,0);
+  transition: transform 150ms linear;
+}
+
+.mdc-drawer--open .header-showing {
+  transform: translate3d(-308px,0,0);
+  transition: transform 225ms linear;
+  transition-delay: 5ms;
+}
+
+.mdc-drawer__header {
+  height: 64px;
+}
+
+.mdc-drawer--temporary.mdc-drawer--open .mdc-drawer__drawer {
+  overflow: visible;
 }
