@@ -10,7 +10,7 @@ matrix:
       env:
         - CBT_USERNAME=lynnjepsen@google.com
         - CBT_AUTHKEY=u868c28eafe8a854
-      script: npm run build && npm run pretest && npm run test:unit && npm run posttest
+      script: npm run build && npm run pretest && npm run test:ci-unit && npm run posttest
       after_success:
         - codecov
     # Closure compiler type checking. Note that TravisCI has Java 7 enabled by default which should

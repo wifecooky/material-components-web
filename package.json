@@ -22,6 +22,7 @@
     "posttest": "istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
     "test:watch": "karma start karma.local.js --auto-watch",
     "test:unit": "karma start karma.local.js --single-run",
+    "test:ci-unit": "karma start karma.ci.js --single-run",
     "test:cbt": "karma start karma.cbt.js --single-run",
     "test:closure": "./scripts/closure-test.sh",
     "test:dependency": "./scripts/dependency-test.sh",

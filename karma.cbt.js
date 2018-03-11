@@ -1,6 +1,6 @@
 const karmaConfig = require('./scripts/karma/config');
 
-
+// TODO test everything but chrome
 const CBT_LAUNCHERS = {
   'chrome-latest': {
     base: 'CrossBrowserTesting',
