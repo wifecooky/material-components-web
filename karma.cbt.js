@@ -1,13 +1,23 @@
 const karmaConfig = require('./scripts/karma/config');
 
-// TODO test everything but chrome
 const CBT_LAUNCHERS = {
-  'chrome-latest': {
+  'firefox': {
     base: 'CrossBrowserTesting',
-    browserName: 'chrome',
-    browser_api_name: 'chrome-latest',
-    os_api_name: 'Win7x64',
-    screen_resolution: '1366x768'
+    browserName: 'Firefox 47',
+    browser_api_name: 'FF47',
+    os_api_name: 'Mac10.12',
+  },
+  'safari': {
+    base: 'CrossBrowserTesting',
+    browserName: 'Safari 10',
+    browser_api_name: 'Safari10',
+    os_api_name: 'Mac10.12',
+  },
+  'edge': {
+    base: 'CrossBrowserTesting',
+    browserName: 'Microsoft Edge 16',
+    browser_api_name: 'Edge16',
+    os_api_name: 'Win10',
   },
 }
 

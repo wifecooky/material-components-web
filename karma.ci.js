@@ -5,10 +5,9 @@ module.exports = function(config) {
   karmaConfig.customLaunchers = {
     'chrome-latest': {
       base: 'CrossBrowserTesting',
-      browserName: 'chrome',
-      browser_api_name: 'chrome-latest',
-      os_api_name: 'Win7x64',
-      screen_resolution: '1366x768',
+      browserName: 'Chrome',
+      browser_api_name: 'Chrome62x64',
+      os_api_name: 'Mac10.12',
     },
   };
 
