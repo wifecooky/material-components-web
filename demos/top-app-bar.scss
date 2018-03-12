@@ -78,3 +78,14 @@ input[type="checkbox"]:disabled + label {
 .mdc-drawer--temporary.mdc-drawer--open .mdc-drawer__drawer {
   overflow: visible;
 }
+
+.expand-top-bar {
+  @include mdc-top-app-bar-short-border-radius(0);
+  @include mdc-elevation(0);
+
+  width: 320px;
+}
+
+.mdc-top-app-bar--short {
+  z-index: 6;
+}
