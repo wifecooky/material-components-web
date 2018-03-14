@@ -4,6 +4,9 @@ branches:
     - master
     - test/cbt
     - test/capture
+addons:
+  artifacts:
+    debug: true
 matrix:
   include:
     # Unit tests on Node Stable
