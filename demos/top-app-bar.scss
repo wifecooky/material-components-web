@@ -57,20 +57,6 @@ input[type="checkbox"]:disabled + label {
   opacity: .4;
 }
 
-.header-showing {
-  position: absolute;
-  bottom: 16px;
-  left: 324px;
-  transform: translate3d(0,0,0);
-  transition: transform 150ms linear;
-}
-
-.mdc-drawer--open .header-showing {
-  transform: translate3d(-308px,0,0);
-  transition: transform 225ms linear;
-  transition-delay: 5ms;
-}
-
 .mdc-drawer__header {
   height: 56px;
 }
@@ -79,13 +65,15 @@ input[type="checkbox"]:disabled + label {
   overflow: visible;
 }
 
-.expand-top-bar {
-  @include mdc-top-app-bar-short-border-radius(0);
+.mdc-top-app-bar--short-collapsed.expand-top-bar {
   @include mdc-elevation(0);
 
-  width: 320px;
+  transition: width 175ms 20ms linear, box-shadow 15ms linear;
 }
 
-.mdc-top-app-bar--short {
+.mdc-top-app-bar--short-collapsed {
+  @include mdc-top-app-bar-short-border-radius(0);
+
+  transition: width 135ms linear, box-shadow 15ms 138ms linear;
   z-index: 6;
 }
