@@ -1,41 +1,58 @@
 import puppeteer from 'puppeteer';
-import resemble from 'node-resemble-js';
-import readFilePromise from 'fs-readfile-promise';
+import compareImages from 'resemblejs/compareImages';
+import {promisify} from 'util';
+import {readFile, writeFile} from 'fs';
 import {assert} from 'chai';
 
+const readFilePromise = promisify(readFile);
+const writeFilePromise = promisify(writeFile);
+
 export default class Screenshot {
-  constructor(urlPath, imagePath) {
+  constructor(urlPath, imagePath, diffPath) {
     this.urlPath_ = urlPath;
     this.imagePath_ = imagePath;
+    this.diffPath_ = diffPath;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
   capture() {
-    test(this.urlPath_, async () => {
-      const url = 'http://localhost:8080/' + this.urlPath_;
+    test(this.urlPath_, async() => {
+      const url = `http://localhost:8080/${this.urlPath_}`;
       const imagePath = `./test/screenshot/${this.imagePath_}`;
       await this.createScreenshotTask_(url, imagePath);
+      return;
     });
   }
 
   diff() {
-    test(this.urlPath_, () => {
-      const url = 'http://localhost:8080/' + this.urlPath_;
-      const capturePromise = this.createScreenshotTask_(url);
-      const readPromise = readFilePromise(
-          './test/screenshot/' + this.imagePath_);
-      return Promise.all([capturePromise, readPromise])
-      .then(function([newScreenshot, oldScreenshot]) {
-        return new Promise(function(resolve) {
-          const onComplete = function(data) {
-            assert.isBelow(Number(data.misMatchPercentage), 0.01);
-            resolve();
-          };
-          resemble(newScreenshot)
-          .compareTo(oldScreenshot)
-          .onComplete(onComplete);
-        });
-      });
+    test(this.urlPath_, async() => {
+      const url = `http://localhost:8080/${this.urlPath_}`;
+      const imagePath = `./test/screenshot/${this.imagePath_}`;
+      const diffPath = `./test/screenshot/${this.diffPath_}`;
+
+      const [newScreenshot, oldScreenshot] = await Promise.all([
+        this.createScreenshotTask_(url),
+        readFilePromise(imagePath),
+      ]);
+
+      const options = {
+        output: {
+          errorColor: {
+            red: 255,
+            green: 0,
+            blue: 255,
+          },
+          errorType: 'movement',
+          transparency: 0.3,
+        },
+      };
+
+      const data = await compareImages(newScreenshot, oldScreenshot, options);
+
+      await writeFilePromise(diffPath, data.getBuffer());
+
+      assert.isBelow(Number(data.misMatchPercentage), 0.01);
+      return;
     });
   }
 

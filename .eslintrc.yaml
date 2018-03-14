@@ -6,7 +6,7 @@ env:
 plugins:
   - mocha
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 2017
   sourceType: module
 rules:
   indent: [error, 2]
@@ -16,7 +16,6 @@ rules:
   no-var: error
   curly: error
   no-floating-decimal: error
-  arrow-parens: always
   no-unused-vars:
     - error
     # Account for closure compiler conventions. See docs/closure-compiler.md
