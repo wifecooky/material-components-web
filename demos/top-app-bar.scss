@@ -61,10 +61,6 @@ input[type="checkbox"]:disabled + label {
   height: 56px;
 }
 
-.mdc-drawer--temporary.mdc-drawer--open .mdc-drawer__drawer {
-  overflow: visible;
-}
-
 .mdc-top-app-bar--short-collapsed.expand-top-bar {
   @include mdc-elevation(0);
 
