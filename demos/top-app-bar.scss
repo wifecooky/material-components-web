@@ -71,8 +71,8 @@ input[type="checkbox"]:disabled + label {
   transition: width 175ms 20ms linear, box-shadow 15ms linear;
 }
 
-.mdc-top-app-bar--short-collapsed {
-  @include mdc-top-app-bar-short-border-radius(0);
+.mdc-top-app-bar--short {
+  @include mdc-top-app-bar-short-border-radius(0px);
 
   transition: width 135ms linear, box-shadow 15ms 138ms linear;
   z-index: 6;
