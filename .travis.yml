@@ -19,7 +19,7 @@ matrix:
       env:
         - CBT_USERNAME=lynnjepsen@google.com
         - CBT_AUTHKEY=u868c28eafe8a854
-      script: npm stop && ./test/screenshot/start.sh && sleep 10s && npm run test:image-diff && npm stop
+      script: npm stop && ./test/screenshot/start.sh && sleep 30s && npm run test:image-diff && npm stop
     # Closure compiler type checking. Note that TravisCI has Java 7 enabled by default which should
     # work for using closure.
     - node_js: node
