@@ -8,9 +8,10 @@ const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 
 export default class Screenshot {
-  constructor(urlPath, imagePath, diffPath) {
+  constructor(urlPath, imagePath, testImagePath, diffPath) {
     this.urlPath_ = urlPath;
     this.imagePath_ = imagePath;
+    this.testImagePath_ = testImagePath;
     this.diffPath_ = diffPath;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
@@ -28,10 +29,11 @@ export default class Screenshot {
     test(this.urlPath_, async() => {
       const url = `http://localhost:8080/${this.urlPath_}`;
       const imagePath = `./test/screenshot/${this.imagePath_}`;
+      const testImagePath = `./test/screenshot/${this.testImagePath_}`;
       const diffPath = `./test/screenshot/${this.diffPath_}`;
 
       const [newScreenshot, oldScreenshot] = await Promise.all([
-        this.createScreenshotTask_(url),
+        this.createScreenshotTask_(url, testImagePath),
         readFilePromise(imagePath),
       ]);
 

@@ -4,6 +4,8 @@ branches:
     - master
     - test/cbt
     - test/capture
+git:
+  depth: false
 addons:
   artifacts:
     debug: true
