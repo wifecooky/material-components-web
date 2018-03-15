@@ -23,6 +23,12 @@ matrix:
         - CBT_USERNAME=lynnjepsen@google.com
         - CBT_AUTHKEY=u868c28eafe8a854
       script: npm stop && ./test/screenshot/start.sh && sleep 30s && npm run test:image-diff && npm stop
+      after_script:
+        - PATH_TO_KEY=./key.json
+        - COMMIT_HASH=$(git rev-parse --short HEAD)
+        - echo $SERVICE_ACCOUNT_KEY > $PATH_TO_KEY
+        - PATH_TO_KEY=$PATH_TO_KEY COMMIT_HASH=$COMMIT_HASH npm run upload:image-diff
+        - rm $PATH_TO_KEY
     # Closure compiler type checking. Note that TravisCI has Java 7 enabled by default which should
     # work for using closure.
     - node_js: node
