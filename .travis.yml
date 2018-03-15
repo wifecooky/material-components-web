@@ -23,7 +23,7 @@ matrix:
         - CBT_USERNAME=lynnjepsen@google.com
         - CBT_AUTHKEY=u868c28eafe8a854
       script: npm stop && ./test/screenshot/start.sh && sleep 30s && npm run test:image-diff && npm stop
-      after_script:
+      after_failure:
         - PATH_TO_KEY=./key.json
         - COMMIT_HASH=$(git rev-parse --short HEAD)
         - echo $SERVICE_ACCOUNT_KEY > $PATH_TO_KEY
