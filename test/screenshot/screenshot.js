@@ -53,7 +53,7 @@ export default class Screenshot {
 
       await writeFilePromise(diffPath, data.getBuffer());
 
-      assert.isBelow(Number(data.misMatchPercentage), 0.02);
+      assert.isAtMost(Number(data.misMatchPercentage), 0.02);
       return;
     });
   }
