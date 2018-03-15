@@ -43,8 +43,8 @@ export default class Screenshot {
             red: 255,
             green: 0,
             blue: 255,
+            alpha: 0.6,
           },
-          errorType: 'movement',
           transparency: 0.3,
         },
       };
@@ -53,7 +53,7 @@ export default class Screenshot {
 
       await writeFilePromise(diffPath, data.getBuffer());
 
-      assert.isBelow(Number(data.misMatchPercentage), 0.01);
+      assert.isBelow(Number(data.misMatchPercentage), 0.02);
       return;
     });
   }
