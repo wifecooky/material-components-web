@@ -6,6 +6,9 @@ branches:
     - test/capture
 git:
   depth: false
+cache:
+  directories:
+    - node_modules
 addons:
   artifacts:
     debug: true
