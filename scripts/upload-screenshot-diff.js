@@ -41,16 +41,17 @@ const files = screenshotFilenames.map((fileName) => {
 
 files.forEach((file) => {
   const bucketFile = bucket.file(file.targetName);
-  bucketFile.makePublic().then(() => {
-    console.log('→ Uploading', file.originalName);
-    fs.createReadStream(file.originalName)
-      .pipe(bucketFile.createWriteStream())
-      .on('error', (err) => {
+  console.log('→ Uploading', file.originalName);
+  fs.createReadStream(file.originalName)
+    .pipe(bucketFile.createWriteStream())
+    .on('error', (err) => {
+      console.error(err);
+    }).on('finish', () => {
+      console.log('✔︎ Done uploading', file.originalName);
+      bucketFile.makePublic().then(() => {
+        console.log('✔︎ Available publicly', file.originalName);
+      }).catch((err) => {
         console.error(err);
-      }).on('finish', () => {
-        console.log('✔︎ Done uploading', file.originalName);
       });
-  }).catch((err) => {
-    console.error(err);
-  });
+    });
 });
