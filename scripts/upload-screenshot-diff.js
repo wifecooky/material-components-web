@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-const PATH_TO_KEY = process.env.PATH_TO_KEY || './secret-key.json';
-const BUCKET_NAME = process.env.BUCKET_NAME || 'material-components-web.appspot.com';
-const COMMIT_HASH = process.env.COMMIT_HASH || 'abcdefgh';
-const BUCKET_FOLDER = process.env.BUCKET_FOLDER || 'screenshot-testing-diffs';
+const PATH_TO_KEY = process.env.PATH_TO_KEY;
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const COMMIT_HASH = process.env.COMMIT_HASH;
 const DIR = './test/screenshot';
 
 const Storage = require('@google-cloud/storage');
@@ -36,7 +35,7 @@ const screenshotFilenames = glob.sync(`${DIR}/**/*.png`);
 const files = screenshotFilenames.map((fileName) => {
   return {
     originalName: path.resolve(fileName),
-    targetName: fileName.replace(DIR, path.join(BUCKET_FOLDER, COMMIT_HASH)),
+    targetName: fileName.replace(DIR, COMMIT_HASH),
   };
 });
 
